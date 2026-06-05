@@ -467,3 +467,422 @@ footer p {
 .hidden {
   display: none !important;
 }
+
+/* CSS CHO GIỎ HÀNG */
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-item-info {
+  text-align: left;
+  flex: 1;
+  margin-left: 10px;
+}
+
+.cart-item-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.cart-item-price {
+  color: #e53935;
+  font-size: 14px;
+}
+
+.remove-btn {
+  color: #888;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.remove-btn:hover {
+  color: #e53935;
+}
+/* --- HỘP THÔNG BÁO CHUYÊN NGHIỆP (TOAST) --- */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast {
+  background: #323232;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  animation:
+    slideIn 0.4s ease forwards,
+    fadeOut 0.4s ease 3s forwards;
+}
+
+/* Các màu sắc riêng cho từng loại thông báo */
+.toast-success {
+  border-left: 5px solid #4caf50; /* Màu xanh lá cho thành công */
+}
+
+.toast-warning {
+  border-left: 5px solid #ff9800; /* Màu cam cho cảnh báo */
+}
+
+.toast-error {
+  border-left: 5px solid #f44336; /* Màu đỏ cho lỗi */
+}
+
+/* Hiệu ứng chuyển động */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(50%);
+  }
+}
+/* --- TOAST NOTIFICATION CHUYÊN NGHIỆP --- */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.toast {
+  background: #323232;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 280px;
+  display: flex;
+  align-items: center;
+  animation:
+    slideIn 0.4s ease forwards,
+    fadeOut 0.4s ease 2.5s forwards;
+}
+.toast-success {
+  border-left: 5px solid #4caf50;
+}
+.toast-warning {
+  border-left: 5px solid #ff9800;
+}
+.toast-error {
+  border-left: 5px solid #f44336;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(50%);
+  }
+}
+
+/* --- GIAO DIỆN TĂNG GIẢM SỐ LƯỢNG TRONG GIỎ --- */
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+.cart-item-info {
+  flex-grow: 1;
+}
+.cart-item-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+.cart-item-price {
+  color: #e53935;
+  font-weight: 600;
+  font-size: 13px;
+}
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 15px;
+}
+.quantity-btn {
+  width: 24px;
+  height: 24px;
+  background: #eee;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.quantity-btn:hover {
+  background: #ddd;
+}
+
+/* --- HIỆU ỨNG FLY TO CART --- */
+.flying-img {
+  position: fixed;
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  opacity: 0.8;
+  z-index: 999999;
+  border-radius: 50%;
+  object-fit: cover;
+  pointer-events: none;
+}
+/* --- CSS CHO CHATBOT --- */
+#chatbot-wrapper {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 999999;
+  font-family: "Poppins", sans-serif;
+}
+
+#chatbot-bubble {
+  width: 60px;
+  height: 60px;
+  background: #e53935;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+#chatbot-bubble:hover {
+  transform: scale(1.1);
+}
+
+#chatbot-box {
+  position: absolute;
+  bottom: 75px;
+  right: 0;
+  width: 320px;
+  height: 400px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #eee;
+}
+
+#chatbot-header {
+  background: #e53935;
+  color: white;
+  padding: 12px 15px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-chat {
+  cursor: pointer;
+  font-size: 22px;
+}
+
+#chatbot-messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f9f9f9;
+}
+
+.chat-msg {
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  max-width: 85%;
+  word-break: break-word;
+}
+
+.chat-msg.bot {
+  background: #e0e0e0;
+  color: #333;
+  align-self: flex-start;
+  border-top-left-radius: 2px;
+}
+
+.chat-msg.user {
+  background: #e53935;
+  color: white;
+  align-self: flex-end;
+  border-top-right-radius: 2px;
+}
+
+#chatbot-input-area {
+  display: flex;
+  padding: 10px;
+  background: white;
+  border-top: 1px solid #eee;
+}
+
+#chatbot-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  outline: none;
+  font-size: 13px;
+}
+
+#chatbot-input-area button {
+  background: #e53935;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  margin-left: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Đảm bảo Chatbot hoạt động tốt khi bật Dark Mode */
+body.dark-mode #chatbot-box,
+body.dark-mode #chatbot-input-area {
+  background: #1e1e1e !important;
+  border-color: #333 !important;
+}
+body.dark-mode #chatbot-messages {
+  background: #121212 !important;
+}
+body.dark-mode .chat-msg.bot {
+  background: #2d2d2d !important;
+  color: #fff !important;
+}
+body.dark-mode #chatbot-bubble,
+body.dark-mode #chatbot-header,
+body.dark-mode .chat-msg.user,
+body.dark-mode #chatbot-input-area button {
+  background: #bb86fc !important;
+  color: #000 !important;
+}
+/* --- CẤU HÌNH DARK MODE - */
+body.dark-mode {
+  background: #121212 !important;
+  color: #ffffff !important;
+}
+
+body.dark-mode header,
+body.dark-mode .modal-content,
+body.dark-mode .card,
+body.dark-mode footer,
+body.dark-mode .small-banner,
+body.dark-mode .menu-shortcut,
+body.dark-mode .products,
+body.dark-mode .noti-dropdown,
+body.dark-mode #chatbot-box,
+body.dark-mode #chatbot-input-area {
+  background: #1e1e1e !important;
+  color: #ffffff !important;
+  border-color: #333333 !important;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Đổi màu chữ cho các mô tả nhỏ trong thông  */
+body.dark-mode .noti-dropdown p,
+body.dark-mode footer p {
+  color: #bbb !important;
+  border-color: #333 !important;
+}
+
+/* Xử lý thanh tìm kiếm và ô chọn Tag */
+body.dark-mode .search-box input,
+body.dark-mode #tagSelect,
+body.dark-mode #chatbot-input {
+  background: #2d2d2d !important;
+  color: #f100a1 !important;
+  border-color: #444444 !important;
+}
+
+/* Đổi màu nền cho biểu tượng Shortcut của Menu */
+body.dark-mode .icon {
+  background: #3a2222 !important; /* Chuyển màu hồng nhạt sang đỏ tối cho hợp tone */
+}
+
+/* Giữ các màu sắc chủ đạo nổi bật ở chế độ tối */
+body.dark-mode .topbar {
+  background: #885dec;
+}
+body.dark-mode .logo,
+body.dark-mode .price,
+body.dark-mode .cart-item-price {
+  color: #ff85a2 !important;
+}
+
+/* Làm nổi bật nút bấm trên nền tối */
+body.dark-mode button,
+body.dark-mode .login-btn,
+body.dark-mode .quantity-btn,
+body.dark-mode #chatbot-bubble,
+body.dark-mode #chatbot-header,
+body.dark-mode .chat-msg.user,
+body.dark-mode #chatbot-input-area button {
+  background: #bb86fc !important;
+  color: #000000 !important;
+}
+
+body.dark-mode button:hover,
+body.dark-mode .login-btn:hover {
+  background: #9965f4 !important;
+}
+
+/* Đổi màu tin nhắn của Bot trong cửa sổ chat bong bóng */
+body.dark-mode .chat-msg.bot {
+  background: #2d2d2d !important;
+  color: #ff01f2 !important;
+}
+body.dark-mode #chatbot-messages {
+  background: #121212 !important;
+}

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
@@ -13,30 +13,134 @@
       rel="stylesheet"
     />
   </head>
-  <div id="login-modal" class="modal hidden">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeLogin()">&times;</span>
-      <h2>Đăng nhập</h2>
-      <input type="text" placeholder="Tên đăng nhập hoặc Email" />
-      <input type="password" placeholder="Mật khẩu" />
-      <button class="login-btn">Vào trong</button>
-    </div>
-  </div>
   <body>
-    <!-- TOP BAR -->
+    <div id="toast-container"></div>
+
+    <div id="login-modal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeLogin()">&times;</span>
+        <h2>Đăng nhập</h2>
+        <input
+          type="text"
+          id="login-username"
+          placeholder="Tên đăng nhập hoặc Email"
+        />
+        <input type="password" id="login-password" placeholder="Mật khẩu" />
+        <button class="login-btn" onclick="handleLogin()">Vào trong</button>
+      </div>
+    </div>
+
+    <div id="cart-modal" class="modal hidden">
+      <div
+        class="modal-content"
+        style="
+          width: 500px;
+          max-height: 80vh;
+          display: flex;
+          flex-direction: column;
+        "
+      >
+        <span class="close-btn" onclick="closeCart()">&times;</span>
+        <h2 style="margin-bottom: 15px">Giỏ hàng của bạn</h2>
+
+        <div
+          id="cart-items-list"
+          style="flex-grow: 1; overflow-y: auto; margin-bottom: 15px"
+        ></div>
+
+        <div style="border-top: 2px solid #eee; padding-top: 15px">
+          <div style="display: flex; gap: 10px; margin-bottom: 15px">
+            <input
+              type="text"
+              id="voucher-input"
+              placeholder="Nhập mã giảm giá (Ví dụ: MINHQUANG)"
+              style="
+                flex: 1;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                outline: none;
+              "
+            />
+            <button
+              onclick="applyVoucher()"
+              style="
+                padding: 8px 15px;
+                background: #e53935;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-weight: bold;
+              "
+            >
+              Áp dụng
+            </button>
+          </div>
+
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-size: 16px;
+              margin-bottom: 5px;
+              color: #666;
+            "
+            id="discount-row"
+            class="hidden"
+          >
+            <span>Giảm giá (50%):</span>
+            <span id="cart-discount">-0đ</span>
+          </div>
+
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-weight: bold;
+              font-size: 18px;
+              margin-bottom: 15px;
+            "
+          >
+            <span>Tổng cộng:</span>
+            <span id="cart-total">0đ</span>
+          </div>
+          <button
+            class="login-btn"
+            onclick="checkout()"
+            style="width: 100%; cursor: pointer"
+          >
+            THANH TOÁN NGAY
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div class="topbar">NHẬP MÃ "MINHQUANG" - GIẢM GIÁ ĐẾN 50%</div>
 
-    <!-- HEADER -->
     <header>
       <div class="logo">wuangStore</div>
 
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Tìm kiếm sách..." />
-        <button onclick="searchBook()">Tìm</button>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Gõ để tìm kiếm sách..."
+          oninput="searchBook()"
+        />
       </div>
 
       <div class="header-icons">
-        <div onclick="viewCart()" class="icon-btn">
+        <div
+          onclick="toggleDarkMode()"
+          class="icon-btn"
+          id="darkmode-toggle"
+          style="font-size: 20px"
+        >
+          🌙
+        </div>
+
+        <div onclick="viewCart()" class="icon-btn" id="cart-btn-nav">
           🛒 Giỏ hàng (<span id="cart-count">0</span>)
         </div>
 
@@ -50,218 +154,401 @@
           </div>
         </div>
 
-        <div onclick="openLogin()" class="icon-btn">👤 Đăng nhập</div>
+        <div onclick="openLogin()" class="icon-btn" id="login-status">
+          👤 Đăng nhập
+        </div>
       </div>
     </header>
 
-    <!-- MAIN -->
     <div class="container">
-      <!-- BANNER -->
       <section class="banner">
         <div class="banner-left">
           <h1>SALE<br />SÁCH HAY</h1>
           <p>Ưu đãi cực sốc cho học sinh - sinh viên</p>
-
           <button>Mua Ngay</button>
         </div>
 
         <div class="banner-right">
           <div class="small-banner">📘 Sách mới mỗi ngày</div>
-
           <div class="small-banner">📚 Sách bán chạy</div>
         </div>
       </section>
 
-      <!-- MENU -->
       <section class="menu-shortcut">
-        <div class="menu-item" onclick="filterBooks('flash-sale')">
-          <div class="icon">🔥</div>
-          Flash Sale
-        </div>
-
-        <div class="menu-item" onclick="filterBooks('manga')">
-          <div class="icon">📚</div>
-          Manga
-        </div>
-
-        <div class="menu-item" onclick="filterBooks('cntt')">
-          <div class="icon">💻</div>
-          CNTT
-        </div>
-
-        <div class="menu-item" onclick="filterBooks('tieuthuyet')">
-          <div class="icon">📖</div>
-          Tiểu Thuyết
-        </div>
-
-        <div class="menu-item" onclick="filterBooks('kynang')">
-          <div class="icon">🧠</div>
-          Kỹ Năng
-        </div>
-
-        <div class="menu-item" onclick="filterBooks('giaokhoa')">
-          <div class="icon">🎓</div>
-          Giáo Khoa
+        <div class="menu-item">
+          <div class="icon">🏷️</div>
+          <select
+            id="tagSelect"
+            onchange="filterBooksByTag(this.value)"
+            style="
+              padding: 5px;
+              border-radius: 5px;
+              border: 1px solid #ccc;
+              font-family: &quot;Poppins&quot;, sans-serif;
+              font-size: 14px;
+              outline: none;
+              cursor: pointer;
+              width: 90%;
+            "
+          >
+            <option value="all">Chọn danh mục...</option>
+            <option value="flash-sale">⚡ Flash Sale</option>
+            <option value="kynang">🧠 Sách Kỹ Năng</option>
+            <option value="giaokhoa">🎓 Giáo Khoa</option>
+            <option value="manga">📚 Truyện Manga</option>
+            <option value="tieuthuyet">Tiểu thuyết</option>
+          </select>
         </div>
       </section>
 
-      <!-- FLASH SALE -->
       <section class="flash-sale">
-        <div class="section-title">⚡ FLASH SALE</div>
+        <div class="section-title">⚡ Danh sách sản phẩm</div>
 
         <div class="products" id="productContainer">
-          <!-- PRODUCT -->
           <div class="card" data-category="flash-sale">
-            <img src="sach/suckhoe.jpg" />
-
+            <img src="sach/suckhoe.jpg" id="img-book-1" />
             <div class="card-body">
               <h3 class="book-name">GYM toàn diện và dinh dưỡng toàn diện</h3>
-
               <div class="price">89.000đ</div>
-
-              <button onclick="buyBook('GYM toàn diện toàn diện')">
+              <button
+                onclick="
+                  buyBook(
+                    'GYM toàn diện và dinh dưỡng toàn diện',
+                    89000,
+                    'img-book-1',
+                    event,
+                  )
+                "
+              >
                 Mua Ngay
               </button>
             </div>
           </div>
 
-          <!-- PRODUCT -->
           <div class="card" data-category="flash-sale">
-            <img src="sach/tinhyeu.jpg" />
-
+            <img src="sach/tinhyeu.jpg" id="img-book-2" />
             <div class="card-body">
               <h3 class="book-name">Bản chất TÌNH YÊU</h3>
-
               <div class="price">69.000đ</div>
-
-              <button onclick="buyBook('Bản chất TÌNH YÊU')">Mua Ngay</button>
+              <button
+                onclick="
+                  buyBook('Bản chất TÌNH YÊU', 69000, 'img-book-2', event)
+                "
+              >
+                Mua Ngay
+              </button>
             </div>
           </div>
 
-          <!-- PRODUCT -->
           <div class="card" data-category="flash-sale kynang">
-            <img src="sach/lamgiau.jpg" />
-
+            <img src="sach/lamgiau.jpg" id="img-book-3" />
             <div class="card-body">
               <h3 class="book-name">Nghĩ Giàu Và Làm Giàu</h3>
-
               <div class="price">159.000đ</div>
-
-              <button onclick="buyBook('Nghĩ Giàu Và Làm Giàu')">
+              <button
+                onclick="
+                  buyBook('Nghĩ Giàu Và Làm Giàu', 159000, 'img-book-3', event)
+                "
+              >
                 Mua Ngay
               </button>
             </div>
           </div>
 
-          <!-- PRODUCT -->
           <div class="card" data-category="flash-sale kynang">
-            <img src="sach/dacnhantam.jpg" />
-
+            <img src="sach/dacnhantam.jpg" id="img-book-4" />
             <div class="card-body">
               <h3 class="book-name">Đắc Nhân Tâm</h3>
-
               <div class="price">79.000đ</div>
-
-              <button onclick="buyBook('Đắc Nhân Tâm')">Mua Ngay</button>
+              <button
+                onclick="buyBook('Đắc Nhân Tâm', 79000, 'img-book-4', event)"
+              >
+                Mua Ngay
+              </button>
             </div>
           </div>
-          <!-- PRODUCT -->
-          <div class="card" data-category="flash-sale manga">
-            <img src="sach/yourname.jpg" />
-
+          <div class="card" data-category="flash-sale kynang">
+            <img src="sach/7thoiquen.jpg" id="img-book-4" />
             <div class="card-body">
-              <h3 class="book-name">YOUR NAME</h3>
-
-              <div class="price">99.000đ</div>
-
-              <button onclick="buyBook('YOUR NAME')">Mua Ngay</button>
+              <h3 class="book-name">7 thói quen hiệu quả</h3>
+              <div class="price">159.000đ</div>
+              <button
+                onclick="
+                  buyBook('7 thói quen hiệu quả', 159000, 'img-book-4', event)
+                "
+              >
+                Mua Ngay
+              </button>
             </div>
           </div>
-          <!-- PRODUCT -->
-          <div class="card" data-category="cntt flash-sale giaokhoa">
-            <img src="sach/python.jpg" />
+          <div class="card" data-category="flash-sale kynang">
+            <img src="sach/tuoitre.jpg" id="img-book-4" />
+            <div class="card-body">
+              <h3 class="book-name">Tuổi Trẻ đáng giá bao nhiêu?</h3>
+              <div class="price">69.000đ</div>
+              <button
+                onclick="
+                  buyBook(
+                    'Tuổi Trẻ đáng giá bao nhiêu?',
+                    69000,
+                    'img-book-4',
+                    event,
+                  )
+                "
+              >
+                Mua Ngay
+              </button>
+            </div>
+          </div>
+          <div class="card" data-category="flash-sale kynang">
+            <img src="sach/toituhoc.jpg" id="img-book-4" />
+            <div class="card-body">
+              <h3 class="book-name">tôi Tự Học</h3>
+              <div class="price">79.000đ</div>
+              <button
+                onclick="buyBook('tôi Tự Học', 79000, 'img-book-4', event)"
+              >
+                Mua Ngay
+              </button>
+            </div>
+          </div>
 
+          <div class="card" data-category="flash-sale manga">
+            <img src="sach/yourname.jpg" id="img-book-5" />
+            <div class="card-body">
+              <h3 class="book-name">Your Name</h3>
+              <div class="price">79.000đ</div>
+              <button
+                onclick="buyBook('Your Name', 79000, 'img-book-5', event)"
+              >
+                Mua Ngay
+              </button>
+            </div>
+          </div>
+          <div class="card" data-category="flash-sale manga">
+            <img src="sach/one piece.jpg" id="img-book-5" />
+            <div class="card-body">
+              <h3 class="book-name">One Piece</h3>
+              <div class="price">99.000đ</div>
+              <button
+                onclick="buyBook('One Piece', 99000, 'img-book-5', event)"
+              >
+                Mua Ngay
+              </button>
+            </div>
+          </div>
+          <div class="card" data-category="flash-sale manga">
+            <img src="sach/doraemon.jpg" id="img-book-5" />
+            <div class="card-body">
+              <h3 class="book-name">Doraemon</h3>
+              <div class="price">69.000đ</div>
+              <button onclick="buyBook('Doraemon', 69000, 'img-book-5', event)">
+                Mua Ngay
+              </button>
+            </div>
+          </div>
+          <div class="card" data-category="flash-sale manga">
+            <img src="sach/attack on titan.jpg" id="img-book-5" />
+            <div class="card-body">
+              <h3 class="book-name">Attack on Titan</h3>
+              <div class="price">89.000đ</div>
+              <button
+                onclick="buyBook('Attack on Titan', 89000, 'img-book-5', event)"
+              >
+                Mua Ngay
+              </button>
+            </div>
+          </div>
+
+          <div class="card" data-category="cntt flash-sale giaokhoa">
+            <img src="sach/python.jpg" id="img-book-6" />
             <div class="card-body">
               <h3 class="book-name">Python for Beginners</h3>
-
-              <div class="price">129.000đ</div>
-
-              <button onclick="buyBook('Python for Beginners')">
+              <div class="price">79.000đ</div>
+              <button
+                onclick="
+                  buyBook('Python for Beginners', 79000, 'img-book-6', event)
+                "
+              >
                 Mua Ngay
               </button>
             </div>
           </div>
-          <!-- PRODUCT -->
-          <div class="card" data-category="giaokhoa flash-sale">
-            <img src="sach/tt.jpg" />
+          <div class="card" data-category="cntt flash-sale giaokhoa">
+            <img src="sach/Toan12.jpg" id="img-book-6" />
+            <div class="card-body">
+              <h3 class="book-name">Toán 12</h3>
+              <div class="price">49.000đ</div>
+              <button onclick="buyBook('Toán 12', 49000, 'img-book-6', event)">
+                Mua Ngay
+              </button>
+            </div>
+          </div>
+          <div class="card" data-category="cntt flash-sale giaokhoa">
+            <img src="sach/Hoa12.jpg" id="img-book-6" />
+            <div class="card-body">
+              <h3 class="book-name">Hóa 12</h3>
+              <div class="price">59.000đ</div>
+              <button onclick="buyBook('Hóa 12', 59000, 'img-book-6', event)">
+                Mua Ngay
+              </button>
+            </div>
+          </div>
+          <div class="card" data-category="cntt flash-sale giaokhoa">
+            <img src="sach/tienghan.jpg" id="img-book-6" />
+            <div class="card-body">
+              <h3 class="book-name">Tiếng Hàn Cho Người Mới Bắt Đầu</h3>
+              <div class="price">79.000đ</div>
+              <button
+                onclick="
+                  buyBook(
+                    'Tiếng Hàn Cho Người Mới Bắt Đầu',
+                    79000,
+                    'img-book-6',
+                    event,
+                  )
+                "
+              >
+                Mua Ngay
+              </button>
+            </div>
+          </div>
 
+          <div class="card" data-category="giaokhoa flash-sale">
+            <img src="sach/tt.jpg" id="img-book-7" />
             <div class="card-body">
               <h3 class="book-name">Tiếng Trung Cho Người Mới Bắt Đầu</h3>
-
               <div class="price">79.000đ</div>
-
-              <button onclick="buyBook('Tiếng Trung Cho Người Mới Bắt Đầu')">
+              <button
+                onclick="
+                  buyBook(
+                    'Tiếng Trung Cho Người Mới Bắt Đầu',
+                    79000,
+                    'img-book-7',
+                    event,
+                  )
+                "
+              >
                 Mua Ngay
               </button>
             </div>
           </div>
 
-          <!-- PRODUCT -->
-          <div class="card" data-category="tieuthuyet">
-            <img src="sach/tieuthuyet.jpg" />
-
+          <div class="card" data-category="flash-sale tieuthuyet">
+            <img src="sach/matbiec.jpg" id="img-book-8" />
             <div class="card-body">
               <h3 class="book-name">Mắt Biếc</h3>
-
               <div class="price">79.000đ</div>
-
-              <button onclick="buyBook('Mắt Biếc ')">Mua Ngay</button>
+              <button onclick="buyBook('Mắt Biếc', 79000, 'img-book-8', event)">
+                Mua Ngay
+              </button>
             </div>
           </div>
 
-          <!-- PRODUCT -->
-          <div class="card" data-category="tieuthuyet">
-            <img src="sach/harryPotter.jpg" />
-
+          <div class="card" data-category="flash-sale tieuthuyet">
+            <img src="sach/harrypotter.jpg" id="img-book-9" />
             <div class="card-body">
               <h3 class="book-name">Harry Potter</h3>
-
-              <div class="price">159.000đ</div>
-
-              <button onclick="buyBook('Harry Potter')">Mua Ngay</button>
+              <div class="price">129.000đ</div>
+              <button
+                onclick="buyBook('Harry Potter', 129000, 'img-book-9', event)"
+              >
+                Mua Ngay
+              </button>
+            </div>
+          </div>
+          <div class="card" data-category="flash-sale tieuthuyet">
+            <img src="sach/tru tiên.jpg" id="img-book-9" />
+            <div class="card-body">
+              <h3 class="book-name">Tru Tiên</h3>
+              <div class="price">69.000đ</div>
+              <button onclick="buyBook('Tru Tiên', 69000, 'img-book-9', event)">
+                Mua Ngay
+              </button>
+            </div>
+          </div>
+          <div class="card" data-category="flash-sale tieuthuyet">
+            <img src="sach/Nỗi buồn chiến tranh.jpg" id="img-book-9" />
+            <div class="card-body">
+              <h3 class="book-name">Nỗi Buồn Chiến Tranh</h3>
+              <div class="price">79.000đ</div>
+              <button
+                onclick="
+                  buyBook('Nỗi Buồn Chiến Tranh', 79000, 'img-book-9', event)
+                "
+              >
+                Mua Ngay
+              </button>
             </div>
           </div>
 
-          <!-- PRODUCT -->
-          <div class="card" data-category="tieuthuyet">
-            <img src="sach/onggia.jpg" />
-
+          <div class="card" data-category="flash-sale tieuthuyet">
+            <img src="sach/onggiabienca.jpg" id="img-book-10" />
             <div class="card-body">
               <h3 class="book-name">Ông Già Và Biển Cả</h3>
-
               <div class="price">79.000đ</div>
+              <button
+                onclick="
+                  buyBook('Ông Già Và Biển Cả', 79000, 'img-book-10', event)
+                "
+              >
+                Mua Ngay
+              </button>
+            </div>
+          </div>
 
-              <button onclick="buyBook('Ông Già Và Biển Cả')">Mua Ngay</button>
+          <div class="card" data-category="flash-sale manga">
+            <img src="sach/bleach.jpg" id="img-book-11" />
+            <div class="card-body">
+              <h3 class="book-name">Bleach</h3>
+              <div class="price">59.000đ</div>
+              <button onclick="buyBook('Bleach', 59000, 'img-book-11', event)">
+                Mua Ngay
+              </button>
             </div>
           </div>
         </div>
       </section>
     </div>
 
-    <!-- FOOTER -->
     <footer>
       <div>
         <h2>wuangStore</h2>
         <p>bạn cần gì ở đây cũng có!</p>
       </div>
-
       <div>
         <h2>Liên Hệ</h2>
         <p>Email: wuangstore@gmail.com</p>
-        <p>Hotline: 0123456789</p>
+        <p>Hotline: 0366736678</p>
       </div>
     </footer>
 
     <script src="script.js"></script>
+    <div id="chatbot-wrapper">
+      <div id="chatbot-bubble" onclick="toggleChatbot()">💬</div>
+
+      <div id="chatbot-box" class="hidden">
+        <div id="chatbot-header">
+          <span>wuangStore Bot 🤖</span>
+          <span class="close-chat" onclick="toggleChatbot()">&times;</span>
+        </div>
+        <div id="chatbot-messages">
+          <div class="chat-msg bot">
+            Xin chào! em là trợ lý shop wuangStore. em thấy anh/chị đang quan
+            tâm đến sách nhà chúng em, có thể em sẽ giúp được gì cho anh/chị
+            không ạ? 😊
+          </div>
+        </div>
+        <div id="chatbot-input-area">
+          <input
+            type="text"
+            id="chatbot-input"
+            placeholder="Nhập tin nhắn..."
+            onkeypress="handleChatPress(event)"
+          />
+          <button onclick="sendChatMessage()">Gửi</button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
